@@ -5,13 +5,18 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
 
 const routes: Routes = [
   {
+    path: 'auth',
+    loadChildren: () =>
+      import('./auth/auth.module').then((module) => module.AuthModule),
+  },
+  {
     path: '404',
     component: NotFoundComponent,
   },
   {
     path: '**',
-    redirectTo: '404',
     pathMatch: 'full',
+    redirectTo: '404',
   },
 ];
 
