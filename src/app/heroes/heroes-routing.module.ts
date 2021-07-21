@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddHeroComponent } from './pages/add-hero/add-hero.component';
 import { HeroComponent } from './pages/hero/hero.component';
 import { HeroesListComponent } from './components/heroes-list/heroes-list.component';
+import { HomeComponent } from './pages/home/home.component';
 import { SearchHeroComponent } from './pages/search-hero/search-hero.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: HomeComponent,
     children: [
       {
         path: 'heroes',
