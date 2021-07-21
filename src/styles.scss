@@ -9,6 +9,11 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+button[mat-raised-button]:hover {
+  opacity: 0.8;
+  transition: 0.7s;
+}
+
 .container {
   margin: 2rem;
 }
