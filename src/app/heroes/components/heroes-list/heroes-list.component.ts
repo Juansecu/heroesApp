@@ -7,13 +7,7 @@ import { HeroesService } from '../../services/heroes.service';
 @Component({
   selector: 'app-heroes-list',
   templateUrl: './heroes-list.component.html',
-  styles: [
-    `
-      mat-card {
-        margin-top: 2rem;
-      }
-    `,
-  ],
+  styles: [],
 })
 export class HeroesListComponent implements OnInit {
   heroes!: Hero[];
