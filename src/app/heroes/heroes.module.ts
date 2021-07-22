@@ -6,6 +6,8 @@ import { HeroesRoutingModule } from './heroes-routing.module';
 
 import { MaterialModule } from '../material/material.module';
 
+import { HeroImagePipe } from './pipes/hero-image.pipe';
+
 import { HeroCardComponent } from './components/hero-card/hero-card.component';
 import { HeroesListComponent } from './components/heroes-list/heroes-list.component';
 import { AddHeroComponent } from './pages/add-hero/add-hero.component';
@@ -21,6 +23,7 @@ import { SearchHeroComponent } from './pages/search-hero/search-hero.component';
     HeroesListComponent,
     HomeComponent,
     SearchHeroComponent,
+    HeroImagePipe,
   ],
   imports: [
     CommonModule,
