@@ -5,10 +5,15 @@ export interface Hero {
   alter_ego: string;
   first_appearance: string;
   characters: string;
-  image?: string;
+  image_url?: string;
 }
 
 export enum Publisher {
   DcComics = 'DC Comics',
   MarvelComics = 'Marvel Comics',
+}
+
+export interface PublisherDetails {
+  id: Publisher;
+  description: string;
 }

@@ -14,6 +14,10 @@ export class HeroesService {
 
   constructor(private readonly http: HttpClient) {}
 
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.baseUrl, hero);
+  }
+
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.baseUrl);
   }
