@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
@@ -41,6 +42,7 @@ export class AddHeroComponent implements OnInit {
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
     private readonly heroesService: HeroesService
   ) {}
 
@@ -49,6 +51,12 @@ export class AddHeroComponent implements OnInit {
       this.activatedRoute.params
         .pipe(switchMap(({ heroId }) => this.heroesService.getHero(heroId)))
         .subscribe((hero) => (this.hero = hero));
+  }
+
+  displaySnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
   }
 
   removeHero(): void {
@@ -68,10 +76,17 @@ export class AddHeroComponent implements OnInit {
       return;
 
     if (this.hero.id)
-      this.heroesService.updateHero(this.hero).subscribe(console.log);
-    else
       this.heroesService
-        .addHero(this.hero)
-        .subscribe((hero) => this.router.navigate(['heroes', 'edit', hero.id]));
+        .updateHero(this.hero)
+        .subscribe((hero) =>
+          this.displaySnackBar(
+            `Hero ${hero.superhero} was updated successfully!`
+          )
+        );
+    else
+      this.heroesService.addHero(this.hero).subscribe((hero) => {
+        this.router.navigate(['heroes', 'edit', hero.id]);
+        this.displaySnackBar(`${hero.superhero} was saved successfully!`);
+      });
   }
 }
