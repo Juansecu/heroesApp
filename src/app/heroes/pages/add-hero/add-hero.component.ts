@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 import { Hero, Publisher, PublisherDetails } from '../../typings/Hero';
 
@@ -29,9 +31,17 @@ export class AddHeroComponent implements OnInit {
     },
   ];
 
-  constructor(private readonly heroesService: HeroesService) {}
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly heroesService: HeroesService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activatedRoute.params
+      .pipe(switchMap(({ heroId }) => this.heroesService.getHero(heroId)))
+      .subscribe((hero) => (this.hero = hero));
+  }
 
   saveHero(): void {
     if (
@@ -43,6 +53,11 @@ export class AddHeroComponent implements OnInit {
     )
       return;
 
-    this.heroesService.addHero(this.hero).subscribe(console.log);
+    if (this.hero.id)
+      this.heroesService.updateHero(this.hero).subscribe(console.log);
+    else
+      this.heroesService
+        .addHero(this.hero)
+        .subscribe((hero) => this.router.navigate(['heroes', 'edit', hero.id]));
   }
 }
