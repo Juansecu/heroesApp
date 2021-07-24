@@ -1,0 +1,7 @@
+<h1>Remove hero?</h1>
+<p>Are you sure you want to remove {{ hero.superhero }} from database?</p>
+
+<div fxLayout fxLayoutGap="1rem">
+  <button mat-button (click)="removeHero()" color="warn">Yes, remove it!</button>
+  <button mat-button (click)="closeDialog()">Cancel</button>
+</div>

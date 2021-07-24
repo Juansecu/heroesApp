@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -6,6 +7,8 @@ import { switchMap } from 'rxjs/operators';
 import { Hero, Publisher, PublisherDetails } from '../../typings/Hero';
 
 import { HeroesService } from '../../services/heroes.service';
+
+import { ConfirmActionComponent } from '../../components/confirm-action/confirm-action.component';
 
 @Component({
   selector: 'app-add',
@@ -41,6 +44,7 @@ export class AddHeroComponent implements OnInit {
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
+    private readonly dialog: MatDialog,
     private readonly router: Router,
     private readonly snackBar: MatSnackBar,
     private readonly heroesService: HeroesService
@@ -60,9 +64,20 @@ export class AddHeroComponent implements OnInit {
   }
 
   removeHero(): void {
-    this.heroesService
-      .deleteHero(this.hero.id!)
-      .subscribe((response) => this.router.navigate(['heroes']));
+    this.dialog
+      .open(ConfirmActionComponent, {
+        data: { ...this.hero },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result)
+          this.heroesService.deleteHero(this.hero.id!).subscribe((response) => {
+            this.displaySnackBar(
+              `${this.hero.superhero} was removed from database successfully!`
+            );
+            this.router.navigate(['heroes']);
+          });
+      });
   }
 
   saveHero(): void {
