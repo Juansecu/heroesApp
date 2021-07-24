@@ -4,6 +4,7 @@ import { Hero } from '../typings/Hero';
 
 @Pipe({
   name: 'heroImage',
+  pure: false,
 })
 export class HeroImagePipe implements PipeTransform {
   transform(hero: Hero): string {
