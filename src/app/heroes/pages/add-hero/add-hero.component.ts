@@ -45,9 +45,10 @@ export class AddHeroComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params
-      .pipe(switchMap(({ heroId }) => this.heroesService.getHero(heroId)))
-      .subscribe((hero) => (this.hero = hero));
+    if (this.router.url.includes('edit'))
+      this.activatedRoute.params
+        .pipe(switchMap(({ heroId }) => this.heroesService.getHero(heroId)))
+        .subscribe((hero) => (this.hero = hero));
   }
 
   saveHero(): void {
