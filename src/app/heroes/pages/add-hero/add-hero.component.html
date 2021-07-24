@@ -38,10 +38,17 @@
       <input matInput type="url" [(ngModel)]="hero.image_url" />
     </mat-form-field>
 
-    <button mat-raised-button (click)="saveHero()" color="primary">
-      <mat-icon>edit</mat-icon>
-      Save
-    </button>
+    <div fxLayout fxLayoutGap="1rem">
+      <button mat-raised-button (click)="saveHero()" fxFlex="100" color="primary">
+        <mat-icon>edit</mat-icon>
+        Save
+      </button>
+
+      <button mat-raised-button *ngIf="hero.id" (click)="removeHero()" fxFlex="100" color="warn">
+        <mat-icon>delete</mat-icon>
+        Remove
+      </button>
+    </div>
   </div>
 
   <div fxFlex="50">

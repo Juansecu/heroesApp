@@ -18,6 +18,10 @@ export class HeroesService {
     return this.http.post<Hero>(this.baseUrl, hero);
   }
 
+  deleteHero(heroId: string): Observable<object> {
+    return this.http.delete(`${this.baseUrl}/${heroId}`);
+  }
+
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.baseUrl);
   }

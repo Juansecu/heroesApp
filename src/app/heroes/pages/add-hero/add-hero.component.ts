@@ -51,6 +51,12 @@ export class AddHeroComponent implements OnInit {
         .subscribe((hero) => (this.hero = hero));
   }
 
+  removeHero(): void {
+    this.heroesService
+      .deleteHero(this.hero.id!)
+      .subscribe((response) => this.router.navigate(['heroes']));
+  }
+
   saveHero(): void {
     if (
       !this.hero.superhero.trim() ||
