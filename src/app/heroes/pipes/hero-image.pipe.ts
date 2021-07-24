@@ -7,6 +7,7 @@ import { Hero } from '../typings/Hero';
 })
 export class HeroImagePipe implements PipeTransform {
   transform(hero: Hero): string {
+    if (hero.image_url) return hero.image_url;
     return !hero.id ? 'assets/no-image.png' : `assets/heroes/${hero.id}.jpg`;
   }
 }
