@@ -9,7 +9,14 @@ import { HeroesService } from '../../services/heroes.service';
 @Component({
   selector: 'app-add',
   templateUrl: './add-hero.component.html',
-  styles: [],
+  styles: [
+    `
+      img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    `,
+  ],
 })
 export class AddHeroComponent implements OnInit {
   hero: Hero = {
