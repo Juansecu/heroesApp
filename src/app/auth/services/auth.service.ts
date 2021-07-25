@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
@@ -22,12 +22,25 @@ export class AuthService {
   constructor(private readonly http: HttpClient) {}
 
   login(userId: string): Observable<User> {
-    return this.http
-      .get<User>(`${this.baseUrl}/${userId}`)
-      .pipe(tap((user) => (this.user = user)));
+    return this.http.get<User>(`${this.baseUrl}/${userId}`).pipe(
+      tap((user) => (this.user = user)),
+      tap((user) => localStorage.setItem('userId', user.id!))
+    );
   }
 
   logout(): void {
+    localStorage.removeItem('userId');
     this.user = undefined;
+  }
+
+  verifyAuthentication(): Observable<boolean> {
+    if (localStorage.getItem('userId'))
+      return this.http.get<User>(`${this.baseUrl}`).pipe(
+        map((user) => {
+          this.user = user;
+          return true;
+        })
+      );
+    return of(false);
   }
 }

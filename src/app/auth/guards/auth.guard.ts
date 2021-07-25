@@ -4,11 +4,13 @@ import {
   CanActivate,
   CanLoad,
   Route,
+  Router,
   RouterStateSnapshot,
   UrlSegment,
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { AuthService } from '../services/auth.service';
 
@@ -16,7 +18,10 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,8 +31,14 @@ export class AuthGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.userProperties!.id) return true;
-    return false;
+    /*if (this.authService.userProperties!.id) return true;
+    return false;*/
+
+    return this.authService.verifyAuthentication().pipe(
+      tap((authenticated) => {
+        if (!authenticated) this.router.navigate(['auth/login']);
+      })
+    );
   }
   canLoad(
     route: Route,
@@ -37,7 +48,13 @@ export class AuthGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.userProperties!.id) return true;
-    return false;
+    /*if (this.authService.userProperties!.id) return true;
+    return false;*/
+
+    return this.authService.verifyAuthentication().pipe(
+      tap((authenticated) => {
+        if (!authenticated) this.router.navigate(['auth/login']);
+      })
+    );
   }
 }
